@@ -15,6 +15,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT
 });
 
 // Teste de conexão
@@ -28,10 +29,12 @@ db.connect((err) => {
 
 // Criar tabela (se não existir)
 db.query(`
-  CREATE TABLE IF NOT EXISTS usuarios (
+ CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
-    email VARCHAR(100)
+    email VARCHAR(100),
+    data_nascimento DATE,
+    cpf VARCHAR(14)
   )
 `);
 
@@ -45,10 +48,13 @@ app.get("/usuarios", (req, res) => {
 
 // Rota para cadastrar usuário
 app.post("/usuarios", (req, res) => {
-  const { nome, email } = req.body;
-  db.query("INSERT INTO usuarios (nome, email) VALUES (?, ?)", [nome, email], (err) => {
-    if (err) throw err;
-    res.json({ message: "Usuário cadastrado com sucesso!" });
+  const { nome, email, data_nascimento, cpf } = req.body;
+  db.query(
+    "INSERT INTO usuarios (nome, email, data_nascimento, cpf) VALUES (?, ?, ?, ?)",
+    [nome, email, data_nascimento, cpf],
+    (err , result) => {
+      if (err) throw err;
+      res.json({ message: "Usuário cadastrado com sucesso!" });
   });
 });
 
