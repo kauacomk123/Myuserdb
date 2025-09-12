@@ -85,15 +85,15 @@ DB_PORT=3306
 SERVER_PORT=5000
 ```
 ## Exemplo de Uso
-1)Acesse http://localhost:3000
-
-2)Preencha o formulário de cadastro com:
+1)Preencha o formulário de cadastro com:
 - **Nome**
 - **Email**
 - **Data de Nascimento**
 - **CPF**
 
-3)Observe a lista abaixo sendo atualizada automaticamente com o novo usuário
+2)Observe a lista abaixo sendo atualizada automaticamente com o novo usuário
+3) 🖼️ Preview da Interface
+![Tela de Cadastro](../tela_exemplo.png)
 
 ## Fluxo de Dados
 - Frontend → Envia dados do formulário para a API
