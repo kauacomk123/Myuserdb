@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Configuração do MySQL
 const db = mysql.createConnection({
@@ -29,7 +30,7 @@ db.connect((err) => {
 
 // Criar tabela (se não existir)
 db.query(`
- CREATE TABLE IF NOT EXISTS usuarios (
+  CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     email VARCHAR(100),
@@ -41,21 +42,26 @@ db.query(`
 // Rota para listar usuários
 app.get("/usuarios", (req, res) => {
   db.query("SELECT * FROM usuarios", (err, result) => {
-    if (err) return res.status(5000).send(err);
+    if (err) return res.status(500).send(err);
     res.json(result);
   });
 });
 
 // Rota para cadastrar usuário
 app.post("/usuarios", (req, res) => {
+  console.log("Dados recebidos no backend:", req.body); // <- Aqui
   const { nome, email, data_nascimento, cpf } = req.body;
   db.query(
     "INSERT INTO usuarios (nome, email, data_nascimento, cpf) VALUES (?, ?, ?, ?)",
     [nome, email, data_nascimento, cpf],
     (err , result) => {
-      if (err) throw err;
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: err.message });
+      }
       res.json({ message: "Usuário cadastrado com sucesso!" });
-  });
+    }
+  );
 });
 
 // Iniciar servidor
