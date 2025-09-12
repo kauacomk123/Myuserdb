@@ -92,8 +92,11 @@ SERVER_PORT=5000
 - **CPF**
 
 2)Observe a lista abaixo sendo atualizada automaticamente com o novo usuário
-3) 🖼️ Preview da Interface
-![Tela de Cadastro](../tela_exemplo.png)
+
+3)Preview da Interface
+
+![Tela de Cadastro](./frontend/img_captura/tela_exemplo.png)
+
 
 ## Fluxo de Dados
 - Frontend → Envia dados do formulário para a API
